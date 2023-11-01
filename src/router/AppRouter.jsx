@@ -2,14 +2,20 @@ import {Navigate, Route, Routes} from "react-router-dom";
 
 import {LoginPage} from "../auth/index.js";
 import {Reservas} from "../reservas/index.js";
+import {useAuthStore} from "../hooks/index.js";
+import {useEffect} from "react";
 //! Aqui definiriarn sus rutas
 export const AppRouter = () => {
 
-    const authStatus = 'not-authenticated';
+    const { status, checkAuthToken } = useAuthStore();
 
 
+    useEffect(() => {
+        checkAuthToken();
+    }, []);
 
-    if ( authStatus === 'checking' ) {
+
+    if ( status === 'checking' ) {
         return (
             <h3>Cargando...</h3>
         )
@@ -18,7 +24,7 @@ export const AppRouter = () => {
     return (
         <Routes>
             {
-                (authStatus === 'not-authenticated')
+                (status === 'not-authenticated')
                     ? ( //! Si no esta authenticated
                         <>
                             <Route path="/auth/*" element={<LoginPage />} />

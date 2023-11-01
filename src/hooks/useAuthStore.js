@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {reservaApi} from '../api';
+import {authReservaApi} from '../api';
 import {clearErrorMessage, onChecking, onLogin, onLogout} from '../store';
 
 
@@ -8,7 +8,7 @@ export const useAuthStore = () => {
     const dispatch = useDispatch();
 
     const startLogin = async ({username, password}) => {
-        dispatch(onChecking);
+        dispatch(onChecking());
         try {
             // Valor de autenticación en Base64 (Basic Authentication) - Cliente
             const authHeaderValue = "Basic ZnJvbnRlbmRhcHA6MTIzNDU=";
@@ -18,7 +18,7 @@ export const useAuthStore = () => {
                 'Authorization': authHeaderValue
             };
 
-            const {data} = await reservaApi.post('/security/oauth/token', null, {
+            const {data} = await authReservaApi.post('/security/oauth/token', null, {
                 headers,
                 params: {
                     username,
@@ -27,6 +27,7 @@ export const useAuthStore = () => {
                 }
             });
             localStorage.setItem('token', data.access_token);
+            localStorage.setItem('refresh_token', data.refresh_token);
             localStorage.setItem('token-init-date', new Date().getTime());
             dispatch(onLogin({name: data.usuario.nombre, id: data.usuario.id}));
 
@@ -40,17 +41,14 @@ export const useAuthStore = () => {
 
 
     const startRegister = async ({username, password, enabled, nombre, apellido, email, celular, roles}) => {
-
-        console.log({username, password, enabled, nombre, apellido, email, celular, roles})
-
         dispatch(onChecking());
         try {
-            const {data} = await reservaApi.post('/usuarios/crear', {
+            const {data} = await authReservaApi.post('/usuarios/crear', {
                 username, password, enabled, nombre, apellido, email, celular, roles
             });
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('token-init-date', new Date().getTime());
-            dispatch(onLogin({name: data.usuario.nombre, id: data.usuario.id}));
+            //Despues de registrar ingresar automaticamente
+            await startLogin({username, password});
+
         } catch (error) {
             console.log(error)
             dispatch(onLogout('Up! algo salio mal :c'));
@@ -61,9 +59,9 @@ export const useAuthStore = () => {
     }
 
 
-    const checkAuthToken = async ({refresh_token}) => {
-        const token = localStorage.getItem('token');
-        if (!token) return dispatch(onLogout());
+    const checkAuthToken = async () => {
+        const refresh_token = localStorage.getItem('refresh_token');
+        if (!refresh_token) return dispatch(onLogout());
 
         try {
             const authHeaderValue = "Basic ZnJvbnRlbmRhcHA6MTIzNDU=";
@@ -78,12 +76,14 @@ export const useAuthStore = () => {
             formData.append('grant_type', 'refresh_token');
             formData.append('refresh_token', refresh_token);
 
-            const {data} = await reservaApi.post('/security/oauth/token', formData.toString(), {
+            const {data} = await authReservaApi.post('/security/oauth/token', formData.toString(), {
                 headers
             });
 
             localStorage.setItem('token', data.access_token);
+            localStorage.setItem('refresh_token', data.refresh_token);
             localStorage.setItem('token-init-date', new Date().getTime());
+            console.log("hola si entre c:")
             dispatch(onLogin({name: data.usuario.nombre, id: data.usuario.id}));
         } catch (error) {
             localStorage.clear();

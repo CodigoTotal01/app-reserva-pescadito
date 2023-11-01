@@ -1,1 +1,1 @@
-export {default as reservaApi} from './reservaApi.js';
+export {default as authReservaApi} from './authReservaApi.js';

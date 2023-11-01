@@ -19,10 +19,9 @@ const registerFormFields = {
     registerPassword2: '12345',
 }
 
-
 export const LoginPage = () => {
 
-    const {startLogin, startRegister, checkAuthToken, user, status, errorMessage} = useAuthStore();
+    const {startLogin, startRegister, errorMessage} = useAuthStore();
 
     const {loginUsername, loginPassword, onInputChange: onLoginInputChange} = useForm(loginFormFields);
     const {
@@ -49,15 +48,6 @@ export const LoginPage = () => {
             return;
         }
 
-
-        // console.log(registerUsername,
-        //     registerName,
-        //     registerLastName,
-        //     registerEmail,
-        //     registerCelular,
-        //     registerPassword,
-        //     registerPassword2,)
-        // return;
         startRegister({
             username: registerUsername,
             password: registerPassword,
