@@ -23,7 +23,6 @@ export const reservaSlice = createSlice({
     initialState: {
         isLoadingReservas: true,
         reservas: {},
-        activeReserva: null,
     },
     reducers: {
         onLoadReserva: (state, {payload = []}) => {
@@ -32,13 +31,9 @@ export const reservaSlice = createSlice({
         },
         onCrearReserva: (state, {payload}) => {
             state.reservas.push(payload); // recarga el arreglo de reservas
-            state.activeReserva = null
         },
-        onLogout: (state, {payload}) => {
-          
-        },
-        clearErrorMessage: (state) => {
-            
+        onEliminarReserva: (state, {payload}) => {
+            state.reservas = state.reservas.filter( reserva => reserva.id !== payload.id );
         }
     }
 });
@@ -46,5 +41,6 @@ export const reservaSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     onLoadReserva,
-    onCrearReserva
+    onCrearReserva,
+    onEliminarReserva
 } = reservaSlice.actions;

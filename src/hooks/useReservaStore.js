@@ -6,9 +6,10 @@ import { onCrearReserva, onLoadReserva } from "../store/reserva/reservaSlice";
 const pathActual = "/reserva/listar";
 
 export const useReservaStore = () => {
-
-    //Pasar la informacion de las reservas
-    const {isLoadingReservas, reservas, activeReserva} = useSelector(state => state.reserva);
+  //Pasar la informacion de las reservas
+  const { isLoadingReservas, reservas, activeReserva } = useSelector(
+    (state) => state.reserva
+  );
 
   const dispatch = useDispatch();
 
@@ -16,16 +17,17 @@ export const useReservaStore = () => {
   const startListarReservas = async () => {
     try {
       const { data } = await apiConsultasConToken.get(pathActual);
+      console.log(data);
       dispatch(onLoadReserva(data)); //guardado en el store n orequiere token pero igual funciona
     } catch (error) {
       console.log("No se puedo mostrar las reservas");
     }
   };
 
+  //FUncionaaaa!
   const startCrearReserva = async (usuario, reserva) => {
     try {
-
-        /*COntenido a enviar: 
+      /*COntenido a enviar: 
         {
             "fechaHoraReserva": "2023-10-09T14:30:00",
             "numeroPersonas": 6,
@@ -38,13 +40,13 @@ export const useReservaStore = () => {
             ]
         }
         */
-       
+
       const { data } = await apiConsultasConToken.post(
         `/reserva/reserva-usuario/${usuario.id}`,
         reserva
       );
       console.log(data);
-      dispatch(onCrearReserva(data)); //guardado en el store n orequiere token pero igual funciona
+      dispatch(onCrearReserva(data));
 
       /* Respueta esperada:
             {
@@ -77,13 +79,45 @@ export const useReservaStore = () => {
     }
   };
 
+  //! No tocar xd Solo actualizan adminsitradores, no requiere id del usuario
+  const startActualizarReserva = async (idReservaAnterior, datosDeNuevaReserva, idMesaAnterior) => {
+    try {
+      const dataMesaAnteriorHabilitar = {
+        "capacidad": 6,
+        "disponible": true
+    }
+
+    
+    try{
+      const { dataMesa } = await apiConsultasConToken.put(
+        `/reserva/mesas/actualizar/${idMesaAnterior}`,
+        dataMesaAnteriorHabilitar
+      );
+    }catch (error) {
+      console.log("no esta el id de la mesa anterior, no ahcemos nad");
+    }
+    
+      const { data } = await apiConsultasConToken.put(
+        `/reserva/actualizar/${idReservaAnterior}`,
+        datosDeNuevaReserva
+      );
+
+
+      console.log("ReservaActualizadaHook", data);
+      dispatch(onLoadReserva(data));
+    } catch (error) {
+      console.log("No se pudo actualizar las reserva");
+    }
+  };
+
   return {
     //* Propiedades
     isLoadingReservas,
-    reservas, 
+    reservas,
     activeReserva,
     //* Metodos
     startListarReservas,
     startCrearReserva,
+    startActualizarReserva
   };
 };

@@ -58,13 +58,13 @@ export const LoginPage = () => {
             celular: registerCelular,
             roles: [
                 {
-                    id: "1",
-                    nombre: "ROLE_USER"
+                    "id": 2,
+                    "nombre": "ROLE_ADMIN"
                 }
             ]
         });
     }
-
+  
     useEffect(() => {
         console.log(errorMessage)
         if (errorMessage !== undefined) {
