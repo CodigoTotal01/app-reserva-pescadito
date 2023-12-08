@@ -10,13 +10,13 @@ const loginFormFields = {
 }
 
 const registerFormFields = {
-    registerName: 'Luna',
-    registerLastName: 'Perez Valdivia',
-    registerEmail: 'Luna@gmail.com',
-    registerCelular: '09878906',
-    registerUsername: 'Tortuga',
-    registerPassword: '12345',
-    registerPassword2: '12345',
+    registerName: '',
+    registerLastName: '',
+    registerEmail: '',
+    registerCelular: '',
+    registerUsername: '',
+    registerPassword: '',
+    registerPassword2: '',
 }
 
 export const LoginPage = () => {

@@ -28,18 +28,11 @@ export const reservaSlice = createSlice({
     reducers: {
         onLoadReserva: (state, {payload = []}) => {
             state.isLoadingReservas = false;
-            payload.forEach(reserva => {
-                const exists = state.reservas.some( dbReserva => dbReserva.id === reserva.id );
-                if ( !exists ) {
-                    state.reservas.push(reserva)
-                }
-        });
-            
+            state.reservas = payload; 
         },
         onCrearReserva: (state, {payload}) => {
             state.reservas.push(payload); // recarga el arreglo de reservas
             state.activeReserva = null
-
         },
         onLogout: (state, {payload}) => {
           
