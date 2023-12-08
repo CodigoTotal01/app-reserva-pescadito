@@ -30,13 +30,26 @@ const objetoParaAcutalizarREserva = {
     ]
 }
 
+//! Ojo solo estos objetos on ejemplos de la infor, por ejemplo este seria un objeto cargado sobre el usuaario y el id lo e puesto a mano cuidao nun
+const objetoParaRealizarLaELiminarcion = {
+    "id": "4",
+    "fechaHoraReserva": new Date(),
+    "numeroPersonas": 6,
+    "requerimientos": "tengo un hijo",
+    "restriccionAlimentaria": "No comemos pescado",
+    "mesas": [
+        {
+            "id": "10"
+        }
+    ]
+}
 
 export const Reservas = () => {
     const {status, user, errorMessage} = useSelector(state => state.auth);
 
 
 
-    const {startListarReservas, startCrearReserva, startActualizarReserva} = useReservaStore();
+    const {startListarReservas, startCrearReserva, startActualizarReserva,startEliminarReserva} = useReservaStore();
 
     //Listar las reservas
     const listarReservas = (event) => {
@@ -63,7 +76,8 @@ export const Reservas = () => {
     }
     const eliminarReserva = (event) => {    
         event.preventDefault();
-
+        //AQui yo paso una reserva y lueog si van al metodo usa el id, pero si les es mas facil mandar un numero mejor la verdad para que no se compliquen pero la cosa es que se envie un id (les enviare un videito al wasa ya sabran que es)
+        startEliminarReserva(objetoParaRealizarLaELiminarcion);
     };
 
 

@@ -7,7 +7,7 @@ const pathActual = "/reserva/listar";
 
 export const useReservaStore = () => {
   //Pasar la informacion de las reservas
-  const { isLoadingReservas, reservas, activeReserva } = useSelector(
+  const { isLoadingReservas, reservas, activeReserva, onEliminarReserva} = useSelector(
     (state) => state.reserva
   );
 
@@ -110,6 +110,20 @@ export const useReservaStore = () => {
     }
   };
 
+  //A mi me funciona el echo de que elimina la reserva y tambien habilita la mesa 
+  const startEliminarReserva = async (reserva) => {
+    try{
+      const { data } = await apiConsultasConToken.delete(
+        `/reserva/delete/${reserva.id}`
+      );
+      console.log("ELiminado reserva", data);
+      dispatch(onLoadReserva(data));
+
+    }catch (error){
+      console.log("No se pudo eliminar la reserva");
+    }
+  };
+
   return {
     //* Propiedades
     isLoadingReservas,
@@ -118,6 +132,7 @@ export const useReservaStore = () => {
     //* Metodos
     startListarReservas,
     startCrearReserva,
-    startActualizarReserva
+    startActualizarReserva,
+    startEliminarReserva
   };
 };

@@ -32,9 +32,9 @@ export const reservaSlice = createSlice({
         onCrearReserva: (state, {payload}) => {
             state.reservas.push(payload); // recarga el arreglo de reservas
         },
-        onEliminarReserva: (state, {payload}) => {
-            state.reservas = state.reservas.filter( reserva => reserva.id !== payload.id );
-        }
+        // onEliminarReserva: (state, {payload}) => {
+        //     state.reservas = state.reservas.filter( reserva => reserva.id !== payload.id );
+        // }
     }
 });
 
@@ -42,5 +42,5 @@ export const reservaSlice = createSlice({
 export const {
     onLoadReserva,
     onCrearReserva,
-    onEliminarReserva
+    // onEliminarReserva
 } = reservaSlice.actions;
