@@ -4,7 +4,7 @@ const BASE_URL = '/imagen';
 
 export const listarImagenes = async () => {
   try {
-    const response = await apiConsultasConToken.get(`${BASE_URL}/listar`);
+    const response = await apiConsultasConToken.get(`http://localhost:8090/api/imagen/listar`);
     return response.data;
   } catch (error) {
     console.error(error);

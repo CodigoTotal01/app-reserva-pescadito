@@ -5,6 +5,9 @@ import {Reservas} from "../reservas/index.js";
 import {useAuthStore} from "../hooks/index.js";
 import {useEffect} from "react";
 import Usuario from "../usuarios/Usuario.jsx";
+import Mesa from "../mesas/Mesa.jsx";
+import Imagen from "../comida/Imagen.jsx";
+import Comida from "../comida/Comida.jsx";
 //! Aqui definiriarn sus rutas
 export const AppRouter = () => {
 
@@ -34,7 +37,7 @@ export const AppRouter = () => {
                     )
                     : (
                         <>
-                            <Route path="/" element={< Usuario/>} />
+                            <Route path="/" element={< Comida/>} />
                             <Route path="/*" element={ <Navigate to="/" /> } />
                         </>
                     )

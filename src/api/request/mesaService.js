@@ -50,7 +50,7 @@ export const actualizarMesa = async (id, mesa) => {
 // Eliminar una mesa por su ID
 export const eliminarMesaPorId = async (id) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/delete/${id}`);
+      const response = await apiConsultasConToken.delete(`${BASE_URL}/delete/${id}`);
   
       // Verificar si la eliminación fue exitosa (código de estado 204 No Content)
       if (response.status === 204) {
