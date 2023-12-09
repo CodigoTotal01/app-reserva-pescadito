@@ -4,6 +4,7 @@ import {LoginPage} from "../auth/index.js";
 import {Reservas} from "../reservas/index.js";
 import {useAuthStore} from "../hooks/index.js";
 import {useEffect} from "react";
+import Usuario from "../usuarios/Usuario.jsx";
 //! Aqui definiriarn sus rutas
 export const AppRouter = () => {
 
@@ -33,7 +34,7 @@ export const AppRouter = () => {
                     )
                     : (
                         <>
-                            <Route path="/" element={<Reservas />} />
+                            <Route path="/" element={< Usuario/>} />
                             <Route path="/*" element={ <Navigate to="/" /> } />
                         </>
                     )
